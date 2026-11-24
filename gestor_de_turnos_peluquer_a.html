@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Atelier Studio | Gestor de Turnos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        studio: {
+                            dark: '#121316',
+                            card: '#1C1E24',
+                            border: '#2A2D37',
+                            gold: '#D4AF37',
+                            goldHover: '#B5952F',
+                            cream: '#F8F7F4'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-studio-cream text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar / Header -->
+    <header class="bg-studio-dark text-white border-b border-studio-border sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-studio-gold/20 border border-studio-gold flex items-center justify-center text-studio-gold">
+                    <i data-lucide="scissors" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="font-serif text-xl sm:text-2xl font-bold tracking-wide text-white">L'Atelier <span class="text-studio-gold">Studio</span></h1>
+                    <p class="text-xs text-slate-400 hidden sm:block">Peluquería & Barbería Profesional</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="text-right hidden md:block">
+                    <p id="current-date-display" class="text-sm font-medium text-slate-200 capitalize"></p>
+                    <p class="text-xs text-studio-gold">Sistema de Gestión Activo</p>
+                </div>
+                <button onclick="resetDemoData()" title="Restaurar datos de ejemplo" class="p-2.5 rounded-xl bg-studio-card hover:bg-slate-700 text-slate-300 hover:text-white border border-studio-border transition-colors flex items-center gap-2 text-xs">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Demo</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Resumen / Estadísticas Rápidas -->
+        <section aria-label="Estadísticas del día" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <!-- Total Turnos -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Turnos (Filtro Actual)</p>
+                    <p id="stat-total" class="text-3xl font-bold text-slate-900 mt-1">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center">
+                    <i data-lucide="calendar" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <!-- Pendientes / Confirmados -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Por Atender</p>
+                    <p id="stat-pending" class="text-3xl font-bold text-amber-600 mt-1">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                    <i data-lucide="clock" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <!-- Completados -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Completados</p>
+                    <p id="stat-completed" class="text-3xl font-bold text-emerald-600 mt-1">0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <i data-lucide="check-circle-2" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <!-- Ingresos Estimados -->
+            <div class="bg-studio-dark text-white rounded-2xl p-5 shadow-md border border-studio-border flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-studio-gold">Ingresos Estimados</p>
+                    <p id="stat-revenue" class="text-3xl font-bold text-white mt-1">$0</p>
+                </div>
+                <div class="w-12 h-12 rounded-2xl bg-studio-gold/20 text-studio-gold flex items-center justify-center border border-studio-gold/30">
+                    <i data-lucide="dollar-sign" class="w-6 h-6"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- Layout Principal: Formulario (Izquierda) + Agenda (Derecha) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Columna Formulario: Agendar Nuevo Turno -->
+            <div class="lg:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden sticky top-28">
+                <div class="bg-studio-dark px-6 py-4 border-b border-studio-border flex items-center justify-between">
+                    <h2 class="font-serif text-lg font-semibold text-white flex items-center gap-2">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-studio-gold"></i>
+                        Agendar Nuevo Turno
+                    </h2>
+                </div>
+                
+                <form id="appointment-form" class="p-6 space-y-4">
+                    <!-- Cliente -->
+                    <div>
+                        <label for="clientName" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Nombre del Cliente *</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                            </span>
+                            <input type="text" id="clientName" required placeholder="Ej. Sofía Martínez"
+                                class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div>
+                        <label for="clientPhone" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Teléfono / WhatsApp *</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
+                                <i data-lucide="phone" class="w-4 h-4"></i>
+                            </span>
+                            <input type="tel" id="clientPhone" required placeholder="Ej. 11 5544-3322"
+                                class="w-full pl-9 pr-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Servicio -->
+                    <div>
+                        <label for="service" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Servicio *</label>
+                        <select id="service" required
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all">
+                            <option value="Corte de Cabello" data-price="15000">Corte de Cabello ($15.000)</option>
+                            <option value="Corte y Barba" data-price="22000">Corte y Barba ($22.000)</option>
+                            <option value="Perfilado de Barba" data-price="10000">Perfilado de Barba ($10.000)</option>
+                            <option value="Tintura / Coloración" data-price="45000">Tintura / Coloración ($45.000)</option>
+                            <option value="Balayage / Mechas" data-price="65000">Balayage / Mechas ($65.000)</option>
+                            <option value="Peinado & Brushing" data-price="18000">Peinado & Brushing ($18.000)</option>
+                            <option value="Tratamiento Capilar" data-price="25000">Tratamiento Capilar ($25.000)</option>
+                        </select>
+                    </div>
+
+                    <!-- Profesional / Estilista -->
+                    <div>
+                        <label for="stylist" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Profesional / Estilista *</label>
+                        <select id="stylist" required
+                            class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all">
+                            <option value="Valeria Gómez">Valeria Gómez (Colorista)</option>
+                            <option value="Martín Rossi">Martín Rossi (Estilista Senior)</option>
+                            <option value="Lucas Fernández">Lucas Fernández (Barbero)</option>
+                            <option value="Camila Paz">Camila Paz (Peinados & Tratamientos)</option>
+                        </select>
+                    </div>
+
+                    <!-- Fecha y Hora -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label for="date" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Fecha *</label>
+                            <input type="date" id="date" required
+                                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all">
+                        </div>
+                        <div>
+                            <label for="time" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Hora *</label>
+                            <input type="time" id="time" required
+                                class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Notas Opcionales -->
+                    <div>
+                        <label for="notes" class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1">Notas Opcionales</label>
+                        <textarea id="notes" rows="2" placeholder="Preferencias, alergias, estilo deseado..."
+                            class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold focus:border-transparent transition-all resize-none"></textarea>
+                    </div>
+
+                    <!-- Botón Submit -->
+                    <button type="submit"
+                        class="w-full py-3 px-4 bg-studio-dark hover:bg-slate-800 text-studio-gold font-semibold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 border border-studio-gold/40 cursor-pointer">
+                        <i data-lucide="calendar-plus" class="w-4 h-4"></i>
+                        Reservar Turno
+                    </button>
+                </form>
+            </div>
+
+            <!-- Columna Agenda: Filtros y Listado -->
+            <div class="lg:col-span-8 space-y-6">
+                
+                <!-- Barra de Filtros -->
+                <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+                        <h2 class="font-serif text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i data-lucide="calendar-days" class="w-5 h-5 text-studio-gold"></i>
+                            Agenda de Turnos
+                        </h2>
+                        <div class="flex items-center gap-2">
+                            <button onclick="setFilterToday()" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-studio-gold/15 text-amber-900 hover:bg-studio-gold/25 transition-colors">
+                                Hoy
+                            </button>
+                            <button onclick="clearFilters()" class="text-xs font-medium px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">
+                                Ver Todos
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <!-- Filtro Fecha -->
+                        <div>
+                            <label for="filter-date" class="block text-xs font-medium text-slate-500 mb-1">Filtrar por Fecha</label>
+                            <input type="date" id="filter-date" onchange="renderAppointments()"
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold">
+                        </div>
+
+                        <!-- Filtro Estado -->
+                        <div>
+                            <label for="filter-status" class="block text-xs font-medium text-slate-500 mb-1">Filtrar por Estado</label>
+                            <select id="filter-status" onchange="renderAppointments()"
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold">
+                                <option value="all">Todos los estados</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="confirmado">Confirmado</option>
+                                <option value="completado">Completado</option>
+                                <option value="cancelado">Cancelado</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro Profesional -->
+                        <div>
+                            <label for="filter-stylist" class="block text-xs font-medium text-slate-500 mb-1">Filtrar por Profesional</label>
+                            <select id="filter-stylist" onchange="renderAppointments()"
+                                class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-studio-gold">
+                                <option value="all">Todos los profesionales</option>
+                                <option value="Valeria Gómez">Valeria Gómez</option>
+                                <option value="Martín Rossi">Martín Rossi</option>
+                                <option value="Lucas Fernández">Lucas Fernández</option>
+                                <option value="Camila Paz">Camila Paz</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Lista de Turnos -->
+                <div id="appointments-list" class="space-y-4">
+                    <!-- Las tarjetas de turnos se renderizan dinámicamente aquí -->
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Notificación Toast (Reemplazo elegante de alert) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Modal de Confirmación de Eliminación -->
+    <div id="delete-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-200 transform transition-all">
+            <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="trash-2" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-lg font-bold text-center text-slate-900 mb-2">¿Eliminar este turno?</h3>
+            <p class="text-sm text-center text-slate-500 mb-6">Esta acción no se puede deshacer. El turno será borrado permanentemente de la agenda.</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-sm transition-colors">
+                    Cancelar
+                </button>
+                <button id="confirm-delete-btn" class="flex-1 py-2.5 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl text-sm transition-colors">
+                    Sí, eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Clave para localStorage
+        const STORAGE_KEY = 'latelier_studio_appointments_v1';
+        let appointments = [];
+        let appointmentToDeleteId = null;
+
+        // Obtener fecha de hoy en formato YYYY-MM-DD local
+        function getTodayString() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0');
+            const day = String(today.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Obtener fecha de mañana en formato YYYY-MM-DD
+        function getTomorrowString() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const year = tomorrow.getFullYear();
+            const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+            const day = String(tomorrow.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        // Datos iniciales de demostración
+        function getDefaultAppointments() {
+            const today = getTodayString();
+            const tomorrow = getTomorrowString();
+            return [
+                {
+                    id: '101',
+                    clientName: 'Carolina Herrera',
+                    clientPhone: '11 4589-2210',
+                    service: 'Balayage / Mechas',
+                    price: 65000,
+                    stylist: 'Valeria Gómez',
+                    date: today,
+                    time: '10:00',
+                    status: 'completado',
+                    notes: 'Tono rubio ceniza natural, incluir nutrición.'
+                },
+                {
+                    id: '102',
+                    clientName: 'Sebastián Méndez',
+                    clientPhone: '11 6723-9841',
+                    service: 'Corte y Barba',
+                    price: 22000,
+                    stylist: 'Lucas Fernández',
+                    date: today,
+                    time: '11:30',
+                    status: 'confirmado',
+                    notes: 'Degradé bajo con navaja.'
+                },
+                {
+                    id: '103',
+                    clientName: 'Luciana Pereyra',
+                    clientPhone: '11 3341-7789',
+                    service: 'Peinado & Brushing',
+                    price: 18000,
+                    stylist: 'Camila Paz',
+                    date: today,
+                    time: '15:00',
+                    status: 'pendiente',
+                    notes: 'Ondas suaves para evento de noche.'
+                },
+                {
+                    id: '104',
+                    clientName: 'Facundo Arana',
+                    clientPhone: '11 5120-4490',
+                    service: 'Corte de Cabello',
+                    price: 15000,
+                    stylist: 'Martín Rossi',
+                    date: today,
+                    time: '17:30',
+                    status: 'pendiente',
+                    notes: ''
+                },
+                {
+                    id: '105',
+                    clientName: 'Valentina Zenere',
+                    clientPhone: '11 2987-1123',
+                    service: 'Tintura / Coloración',
+                    price: 45000,
+                    stylist: 'Valeria Gómez',
+                    date: tomorrow,
+                    time: '10:30',
+                    status: 'confirmado',
+                    notes: 'Retoque de raíces.'
+                }
+            ];
+        }
+
+        // Inicialización de la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mostrar fecha actual formateada en el header
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('es-AR', options);
+
+            // Establecer fecha de hoy por defecto en el formulario y en el filtro
+            const todayStr = getTodayString();
+            document.getElementById('date').value = todayStr;
+            document.getElementById('filter-date').value = todayStr;
+
+            // Cargar datos de localStorage
+            loadAppointments();
+            renderAppointments();
+            lucide.createIcons();
+        });
+
+        // Cargar turnos desde localStorage
+        function loadAppointments() {
+            try {
+                const stored = localStorage.getItem(STORAGE_KEY);
+                if (stored) {
+                    appointments = JSON.parse(stored);
+                } else {
+                    appointments = getDefaultAppointments();
+                    saveAppointments();
+                }
+            } catch (error) {
+                console.error('Error al leer localStorage:', error);
+                appointments = getDefaultAppointments();
+            }
+        }
+
+        // Guardar turnos en localStorage
+        function saveAppointments() {
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
+            } catch (error) {
+                console.error('Error al guardar en localStorage:', error);
+                showToast('No se pudo guardar en el navegador', 'error');
+            }
+        }
+
+        // Restaurar datos de demostración
+        function resetDemoData() {
+            appointments = getDefaultAppointments();
+            saveAppointments();
+            document.getElementById('filter-date').value = getTodayString();
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-stylist').value = 'all';
+            renderAppointments();
+            showToast('Datos de ejemplo restaurados correctamente', 'success');
+        }
+
+        // Manejar envío del formulario
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const serviceSelect = document.getElementById('service');
+            const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+            const price = parseInt(selectedOption.getAttribute('data-price')) || 0;
+
+            const newAppointment = {
+                id: Date.now().toString(),
+                clientName: document.getElementById('clientName').value.trim(),
+                clientPhone: document.getElementById('clientPhone').value.trim(),
+                service: serviceSelect.value,
+                price: price,
+                stylist: document.getElementById('stylist').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                status: 'pendiente',
+                notes: document.getElementById('notes').value.trim()
+            };
+
+            appointments.push(newAppointment);
+            saveAppointments();
+
+            // Ajustar filtro de fecha a la fecha del turno creado para verlo inmediatamente
+            document.getElementById('filter-date').value = newAppointment.date;
+            document.getElementById('filter-status').value = 'all';
+
+            renderAppointments();
+            showToast(`Turno agendado para ${newAppointment.clientName}`, 'success');
+
+            // Limpiar campos del formulario (manteniendo fecha)
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('time').value = '';
+            document.getElementById('notes').value = '';
+        });
+
+        // Cambiar estado de un turno
+        function updateStatus(id, newStatus) {
+            const index = appointments.findIndex(app => app.id === id);
+            if (index !== -1) {
+                appointments[index].status = newStatus;
+                saveAppointments();
+                renderAppointments();
+                
+                const statusLabels = {
+                    pendiente: 'Pendiente',
+                    confirmado: 'Confirmado',
+                    completado: 'Completado',
+                    cancelado: 'Cancelado'
+                };
+                showToast(`Estado actualizado a: ${statusLabels[newStatus]}`, 'info');
+            }
+        }
+
+        // Modal de eliminación
+        function promptDelete(id) {
+            appointmentToDeleteId = id;
+            const modal = document.getElementById('delete-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeDeleteModal() {
+            appointmentToDeleteId = null;
+            const modal = document.getElementById('delete-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        document.getElementById('confirm-delete-btn').addEventListener('click', () => {
+            if (appointmentToDeleteId) {
+                appointments = appointments.filter(app => app.id !== appointmentToDeleteId);
+                saveAppointments();
+                renderAppointments();
+                showToast('Turno eliminado de la agenda', 'error');
+                closeDeleteModal();
+            }
+        });
+
+        // Filtros rápidos
+        function setFilterToday() {
+            document.getElementById('filter-date').value = getTodayString();
+            renderAppointments();
+        }
+
+        function clearFilters() {
+            document.getElementById('filter-date').value = '';
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-stylist').value = 'all';
+            renderAppointments();
+        }
+
+        // Formatear moneda
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('es-AR', {
+                style: 'currency',
+                currency: 'ARS',
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Formatear fecha legible (DD/MM/YYYY)
+        function formatDateReadable(dateStr) {
+            if (!dateStr) return '';
+            const [year, month, day] = dateStr.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        // Renderizar listado y actualizar estadísticas
+        function renderAppointments() {
+            const filterDate = document.getElementById('filter-date').value;
+            const filterStatus = document.getElementById('filter-status').value;
+            const filterStylist = document.getElementById('filter-stylist').value;
+
+            // Filtrar
+            const filtered = appointments.filter(app => {
+                const matchDate = !filterDate || app.date === filterDate;
+                const matchStatus = filterStatus === 'all' || app.status === filterStatus;
+                const matchStylist = filterStylist === 'all' || app.stylist === filterStylist;
+                return matchDate && matchStatus && matchStylist;
+            });
+
+            // Ordenar por fecha y luego por hora
+            filtered.sort((a, b) => {
+                if (a.date !== b.date) return a.date.localeCompare(b.date);
+                return a.time.localeCompare(b.time);
+            });
+
+            // Actualizar tarjetas de estadísticas según el filtro actual
+            updateStats(filtered);
+
+            const listContainer = document.getElementById('appointments-list');
+            listContainer.innerHTML = '';
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="bg-white rounded-2xl p-12 text-center border border-slate-200/80 shadow-sm">
+                        <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
+                            <i data-lucide="calendar-x" class="w-8 h-8"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-1">No hay turnos programados</h3>
+                        <p class="text-sm text-slate-500 max-w-md mx-auto">No se encontraron turnos con los filtros seleccionados. Puedes agendar uno nuevo desde el formulario o limpiar los filtros.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            // Configuración visual por estado
+            const statusStyles = {
+                pendiente: {
+                    badge: 'bg-amber-100 text-amber-800 border-amber-200',
+                    borderLeft: 'border-l-amber-500',
+                    label: 'Pendiente'
+                },
+                confirmado: {
+                    badge: 'bg-blue-100 text-blue-800 border-blue-200',
+                    borderLeft: 'border-l-blue-500',
+                    label: 'Confirmado'
+                },
+                completado: {
+                    badge: 'bg-emerald-100 text-emerald-800 border-emerald-200',
+                    borderLeft: 'border-l-emerald-500',
+                    label: 'Completado'
+                },
+                cancelado: {
+                    badge: 'bg-rose-100 text-rose-800 border-rose-200',
+                    borderLeft: 'border-l-rose-500',
+                    label: 'Cancelado'
+                }
+            };
+
+            filtered.forEach(app => {
+                const style = statusStyles[app.status] || statusStyles.pendiente;
+                const isCanceled = app.status === 'cancelado';
+
+                const card = document.createElement('div');
+                card.className = `bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 border-l-4 ${style.borderLeft} transition-all hover:shadow-md ${isCanceled ? 'opacity-70' : ''}`;
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <!-- Hora, Fecha y Datos Principales -->
+                        <div class="flex items-start gap-4">
+                            <div class="bg-studio-dark text-white rounded-xl px-3.5 py-2.5 text-center min-w-[82px] border border-studio-border">
+                                <span class="block text-lg font-bold text-studio-gold leading-none">${app.time}</span>
+                                <span class="block text-[11px] text-slate-300 mt-1">${formatDateReadable(app.date)}</span>
+                            </div>
+
+                            <div>
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <h3 class="text-base font-bold text-slate-900 ${isCanceled ? 'line-through text-slate-500' : ''}">${app.clientName}</h3>
+                                    <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full border ${style.badge}">
+                                        ${style.label}
+                                    </span>
+                                </div>
+
+                                <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-slate-600">
+                                    <span class="flex items-center gap-1 font-medium text-slate-800">
+                                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-studio-gold"></i>
+                                        ${app.service} (${formatCurrency(app.price)})
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="user-check" class="w-3.5 h-3.5 text-slate-400"></i>
+                                        ${app.stylist}
+                                    </span>
+                                    <span class="flex items-center gap-1">
+                                        <i data-lucide="phone" class="w-3.5 h-3.5 text-slate-400"></i>
+                                        ${app.clientPhone}
+                                    </span>
+                                </div>
+
+                                ${app.notes ? `
+                                    <p class="mt-2 text-xs text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 inline-block">
+                                        <span class="font-semibold text-slate-600">Nota:</span> ${app.notes}
+                                    </p>
+                                ` : ''}
+                            </div>
+                        </div>
+
+                        <!-- Acciones -->
+                        <div class="flex items-center justify-end gap-2 pt-3 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                            <select onchange="updateStatus('${app.id}', this.value)" aria-label="Cambiar estado"
+                                class="text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-studio-gold cursor-pointer">
+                                <option value="pendiente" ${app.status === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                                <option value="confirmado" ${app.status === 'confirmado' ? 'selected' : ''}>Confirmado</option>
+                                <option value="completado" ${app.status === 'completado' ? 'selected' : ''}>Completado</option>
+                                <option value="cancelado" ${app.status === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                            </select>
+
+                            <button onclick="promptDelete('${app.id}')" title="Eliminar turno"
+                                class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                listContainer.appendChild(card);
+            });
+
+            // Re-inicializar íconos de Lucide en los elementos nuevos
+            lucide.createIcons();
+        }
+
+        // Calcular y mostrar estadísticas rápidas
+        function updateStats(filteredAppointments) {
+            const total = filteredAppointments.length;
+            const pending = filteredAppointments.filter(a => a.status === 'pendiente' || a.status === 'confirmado').length;
+            const completed = filteredAppointments.filter(a => a.status === 'completado').length;
+            
+            // Sumar ingresos de turnos no cancelados
+            const revenue = filteredAppointments
+                .filter(a => a.status !== 'cancelado')
+                .reduce((sum, app) => sum + (app.price || 0), 0);
+
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-pending').textContent = pending;
+            document.getElementById('stat-completed').textContent = completed;
+            document.getElementById('stat-revenue').textContent = formatCurrency(revenue);
+        }
+
+        // Sistema de notificaciones Toast
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+
+            const colors = {
+                success: 'bg-studio-dark text-white border-studio-gold',
+                info: 'bg-slate-800 text-white border-blue-400',
+                error: 'bg-red-900 text-white border-red-500'
+            };
+
+            const icons = {
+                success: 'check-circle',
+                info: 'info',
+                error: 'alert-circle'
+            };
+
+            toast.className = `${colors[type]} border-l-4 px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 text-sm font-medium transform transition-all duration-300 translate-y-2 opacity-0`;
+            toast.innerHTML = `
+                <i data-lucide="${icons[type]}" class="w-4 h-4 text-studio-gold shrink-0"></i>
+                <span>${message}</span>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // Animación de entrada
+            requestAnimationFrame(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            });
+
+            // Auto-eliminar después de 3 segundos
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
