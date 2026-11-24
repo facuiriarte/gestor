@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turnos de kinesiología</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#dcebf8;--draw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='420' viewBox='0 0 600 420'%3E%3Cg fill='none' stroke='%230a0a0a' stroke-width='1.5' stroke-linecap='round'%3E%3Cpath d='M0,40 C100,-10 200,90 300,40 S500,90 600,40' stroke-opacity='0.7'/%3E%3Cpath d='M0,95 C100,65 200,125 300,95 S500,125 600,95' stroke-opacity='0.52'/%3E%3Cpath d='M0,150 C100,90 200,210 300,150 S500,210 600,150' stroke-opacity='0.63'/%3E%3Cpath d='M0,215 C100,180 200,250 300,215 S500,250 600,215' stroke-opacity='0.45'/%3E%3Cpath d='M0,270 C100,215 200,325 300,270 S500,325 600,270' stroke-opacity='0.7'/%3E%3Cpath d='M0,330 C100,302 200,358 300,330 S500,358 600,330' stroke-opacity='0.52'/%3E%3Cpath d='M0,385 C100,340 200,430 300,385 S500,430 600,385' stroke-opacity='0.59'/%3E%3C/g%3E%3C/svg%3E");--grid:rgba(27,122,115,.09);--g1:rgba(80,140,255,.16);--g2:rgba(27,122,115,.15);--surf:#fff;--ink:#050808;--mut:#2b3433;--line:#d3e1df;--acc:#1b7a73;--on:#fff;--soft:#e1efed;--bad:#b4360a;
+color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1618;--draw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='420' viewBox='0 0 600 420'%3E%3Cg fill='none' stroke='%239fb3b8' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M0,40 C100,-10 200,90 300,40 S500,90 600,40' stroke-opacity='0.28'/%3E%3Cpath d='M0,95 C100,65 200,125 300,95 S500,125 600,95' stroke-opacity='0.2'/%3E%3Cpath d='M0,150 C100,90 200,210 300,150 S500,210 600,150' stroke-opacity='0.25'/%3E%3Cpath d='M0,215 C100,180 200,250 300,215 S500,250 600,215' stroke-opacity='0.17'/%3E%3Cpath d='M0,270 C100,215 200,325 300,270 S500,325 600,270' stroke-opacity='0.28'/%3E%3Cpath d='M0,330 C100,302 200,358 300,330 S500,358 600,330' stroke-opacity='0.2'/%3E%3Cpath d='M0,385 C100,340 200,430 300,385 S500,430 600,385' stroke-opacity='0.22'/%3E%3C/g%3E%3C/svg%3E");--grid:rgba(79,195,185,.07);--g1:rgba(110,130,255,.12);--g2:rgba(79,195,185,.11);--surf:#152827;--ink:#e3efed;--mut:#93aeab;--line:#274341;--acc:#4fc3b9;--on:#06201e;--soft:#1c3735;--bad:#ff8a5c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1618;--draw:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='420' viewBox='0 0 600 420'%3E%3Cg fill='none' stroke='%239fb3b8' stroke-width='1.3' stroke-linecap='round'%3E%3Cpath d='M0,40 C100,-10 200,90 300,40 S500,90 600,40' stroke-opacity='0.28'/%3E%3Cpath d='M0,95 C100,65 200,125 300,95 S500,125 600,95' stroke-opacity='0.2'/%3E%3Cpath d='M0,150 C100,90 200,210 300,150 S500,210 600,150' stroke-opacity='0.25'/%3E%3Cpath d='M0,215 C100,180 200,250 300,215 S500,250 600,215' stroke-opacity='0.17'/%3E%3Cpath d='M0,270 C100,215 200,325 300,270 S500,325 600,270' stroke-opacity='0.28'/%3E%3Cpath d='M0,330 C100,302 200,358 300,330 S500,358 600,330' stroke-opacity='0.2'/%3E%3Cpath d='M0,385 C100,340 200,430 300,385 S500,430 600,385' stroke-opacity='0.22'/%3E%3C/g%3E%3C/svg%3E");--grid:rgba(79,195,185,.07);--g1:rgba(110,130,255,.12);--g2:rgba(79,195,185,.11);--surf:#152827;--ink:#e3efed;--mut:#93aeab;--line:#274341;--acc:#4fc3b9;--on:#06201e;--soft:#1c3735;--bad:#ff8a5c;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:var(--draw) 0 0/600px 420px,var(--bg);color:var(--ink);font:400 16px/1.45 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:16px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+h1{font-size:22px;margin:0;font-weight:700;letter-spacing:-.01em}
+nav{max-width:100%;overflow-x:auto;display:flex;background:var(--soft);border-radius:999px;padding:3px}
+.tab{border:0;background:none;color:var(--mut);font:500 15px Figtree,system-ui,sans-serif;padding:8px 16px;border-radius:999px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--acc);color:var(--on)}
+h2{margin:14px 0 2px;font-size:26px;font-weight:700;letter-spacing:-.02em}
+h2::first-letter{text-transform:uppercase}
+h3{margin:0 0 12px;font-size:20px}
+.sub{margin:0 0 14px;color:var(--mut)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.card:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.bar{display:flex;gap:8px;flex-wrap:wrap}
+.bar button,.btn{border:1px solid var(--line);background:var(--surf);border-radius:10px;padding:8px 14px;min-height:40px}
+.primary{background:var(--acc)!important;color:var(--on)!important;border-color:var(--acc)!important;font-weight:700}
+.danger{color:var(--bad)!important}
+input,select,textarea{width:100%;background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-height:42px}
+.bar input{width:auto}
+textarea{min-height:70px;resize:vertical}
+.row{display:grid;grid-template-columns:54px 1fr;gap:10px;padding:5px 0;border-top:1px solid var(--line)}
+time{color:var(--mut);font-variant-numeric:tabular-nums;padding-top:8px}
+.free{width:100%;text-align:left;background:none;border:1px dashed var(--line);color:var(--mut);border-radius:10px;padding:6px 12px;margin:2px 0}
+.row.hr time{color:var(--ink);font-weight:700}
+.free:hover{border-color:var(--acc);color:var(--acc)}
+.card{background:var(--surf);border:1px solid var(--line);border-left:6px solid var(--c,var(--acc));border-radius:10px;padding:10px 12px;margin:2px 0;cursor:pointer}
+.card b{font-weight:700}
+.tag{float:right;font-size:13px;color:var(--c);font-weight:700}
+.sm{font-size:14px;color:var(--mut)}
+.canc{font-size:13px;color:var(--mut);text-decoration:line-through;padding:2px 4px;cursor:pointer}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.stat{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stat b{display:block;font-size:22px}
+label{display:block;font-size:14px;color:var(--mut);margin-bottom:10px}
+label>*:not(span){margin-top:4px;color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+dialog{border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);padding:18px;width:min(520px,calc(100% - 24px));max-height:92vh;overflow:auto}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.acts{display:flex;gap:8px;align-items:center;margin-top:8px}
+.acts span{flex:1}
+.acts button{border:1px solid var(--line);background:var(--surf);border-radius:10px;padding:9px 14px;min-height:42px}
+.link{background:none;border:0;color:var(--acc);padding:0 0 10px;text-decoration:underline}
+.err{color:var(--bad);min-height:20px;margin:0}
+.empty{color:var(--mut);padding:24px 0;text-align:center}
+.pn{}
+.more summary{cursor:pointer;color:var(--acc);margin:6px 0 10px;font-weight:500}
+.wd{display:flex;gap:6px;flex-wrap:wrap}
+.wd label{display:flex;align-items:center;gap:4px;margin:0;padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surf);color:var(--ink)}
+.wd input{width:auto;min-height:0;margin:0!important}
+.xr{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:6px;align-items:center;margin:6px 0}
+.xr input[type=checkbox]{width:20px;min-height:0}
+.xd::first-letter{text-transform:uppercase}
+.xd{display:inline-block}
+.xr input,.xr select{min-width:0}
+.ses{border:1px solid var(--line);background:var(--surf);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.pbar{height:8px;border-radius:99px;background:var(--soft);overflow:hidden;margin:6px 0}
+.pbar i{display:block;height:100%;background:var(--acc)}
+.gr{display:grid}
+.hh{font-size:11px;color:var(--mut);padding:3px 0 0 6px;background:var(--soft);white-space:nowrap}
+.hh.hr{color:var(--ink);font-weight:700;font-size:12px}
+.lab{background:var(--soft);font-size:12px;font-weight:700;color:var(--ink);display:flex;align-items:center;justify-content:center}
+.cell{cursor:pointer}
+.cell.hr{}
+.cell:hover{filter:brightness(.92)}
+.blk{position:relative;z-index:2;margin:3px 2px;border-radius:8px;padding:5px 8px;overflow:hidden;cursor:pointer;background:var(--surf);border:1px solid var(--acc);border-left-width:5px;display:flex;flex-direction:column;justify-content:flex-start;line-height:1.25}
+.blk b{font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.blk .pn{text-decoration-color:var(--mut)}
+.blk span{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dd{position:absolute;top:5px;right:6px;width:9px;height:9px;border-radius:50%;background:#f0b429;border:1.5px solid var(--surf)}
+.lg{display:flex;gap:16px;flex-wrap:wrap;margin:0 0 10px;font-size:13px;color:var(--mut)}
+.lg i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.hero{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin:6px 0 10px}
+.hero h2{margin:0}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{border:1px solid var(--p);background:color-mix(in srgb,var(--p) 18%,transparent);color:var(--ink);border-radius:999px;padding:4px 12px;font-size:14px;font-weight:500}
+.leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--mut);margin:0 0 10px}
+.leg span{display:inline-flex;align-items:center;gap:6px}
+.leg i{width:14px;height:14px;border-radius:4px;display:inline-block}
+h1{border-left:5px solid var(--acc);padding-left:10px}
+.hit{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:8px;background:var(--surf);margin:4px 0;cursor:pointer;font-size:14px}
+.hist{font-size:14px;color:var(--mut);margin:0 0 12px;padding-left:18px}
+.os{display:flex;justify-content:space-between;padding:6px 0;border-top:1px solid var(--line)}
+.pay{float:right;border:1px solid var(--line);background:var(--surf);border-radius:8px;padding:4px 10px;font-size:14px}
+.pay.on{background:var(--soft);color:var(--acc)}
+@media(max-width:420px){.g2{grid-template-columns:1fr}.tab{padding:8px 12px}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Turnos de kinesiología</h1>
+    <nav role="tablist">
+      <button class="tab" data-t="agenda" role="tab" onclick="go('agenda')">Agenda</button>
+      <button class="tab" data-t="pac" role="tab" onclick="go('pac')">Pacientes</button>
+      <button class="tab" data-t="cob" role="tab" onclick="go('cob')">Cobros</button>
+      <button class="tab" onclick="DB.logout()">Salir</button>
+    </nav>
+  </header>
+  <main id="main"></main>
+  <footer id="foot" class="bar" style="margin-top:28px;padding-top:14px;border-top:1px solid var(--line);align-items:center" hidden>
+    <span class="sm" style="flex:1">Copia de seguridad</span>
+    <button onclick="backup()">Descargar copia</button>
+    <button onclick="$('#rf').click()">Restaurar copia</button>
+    <input id="rf" type="file" accept=".json,application/json" hidden onchange="restore(this)">
+  </footer>
+</div>
+<dialog id="dlg"></dialog>
+<script>
+const KEY='turnos-dental-v1';
+let S={patients:[],appts:[]};
+const $=s=>document.querySelector(s);
+const dlg=$('#dlg');
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const hm=m=>pad(Math.floor(m/60))+':'+pad(m%60);
+const uid=()=>Math.random().toString(36).slice(2,10);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money=n=>(+n||0).toLocaleString('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0});
+const pat=id=>S.patients.find(p=>p.id===id);
+const ST={conf:['Confirmado','#1b7a73'],canc:['Cancelado','#8a9a98']};
+const OS=['Particular','OSDE','Swiss Medical','Galeno','Medifé','IOMA','PAMI','OSECAC','Sancor Salud'];
+const MOTIVOS=['Evaluación inicial','Sesión de rehabilitación','Kinesiología deportiva','Rehabilitación postquirúrgica','Kinesiología respiratoria','RPG','Masoterapia','Electroterapia y ultrasonido','Control'];
+let tab='agenda',day=iso(new Date()),mon=day.slice(0,7),cf='all',q='',PCB=null,D=null;
+
+function go(t){tab=t;render()}
+function renderApp(){
+  $('.wrap').style.maxWidth=tab==='agenda'?'1200px':'720px';
+  document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===tab));
+  $('#main').innerHTML=tab==='agenda'?vAgenda():tab==='pac'?vPac():vCob();
+}
+function shift(n){const d=new Date(day+'T12:00');d.setDate(d.getDate()+n);day=iso(d);render()}
+const CAP=5;
+function load(date,ex){
+  const c={};
+  S.appts.forEach(a=>{if(a.date===date&&a.id!==ex&&a.st!=='canc')for(let m=a.start;m<a.start+a.dur;m+=15)c[m]=(c[m]||0)+1});
+  return c;
+}
+
+/* ---------- Agenda ---------- */
+function card(a){
+  const p=pat(a.pid)||{name:'(paciente eliminado)'},[l,c]=ST[a.st];
+  return `<div class="card" tabindex="0" style="--c:${c}" onclick="openAppt('${a.id}')" onkeydown="if(event.key==='Enter')openAppt('${a.id}')">
+  <span class="tag">${l}</span><b class="pn">${esc(p.name)}</b>
+  <div class="sm">${hm(a.start)} a ${hm(a.start+a.dur)}${a.reason?', '+esc(a.reason):''}${p.os?', '+esc(p.os):''}${nses(a)?', '+nses(a):''}</div>
+  ${+a.amount?`<div class="sm">${money(a.amount)}, ${a.paid?'cobrado':'pendiente de cobro'}</div>`:''}</div>`;
+}
+const tone=n=>n>=CAP?'#e0554f':n>0?'#f0b429':'#34a56a';
+const tint=(n,p)=>`color-mix(in srgb,${tone(n)} ${p}%,var(--surf))`;
+function vAgenda(){
+  const d=new Date(day+'T12:00');
+  const list=S.appts.filter(a=>a.date===day),act=list.filter(a=>a.st!=='canc');
+  const deb=act.reduce((s,a)=>s+(a.paid?0:+a.amount||0),0);
+  const c=load(day);
+  const lo=Math.min(780,...list.map(a=>Math.floor(a.start/15)*15)),hi=Math.max(1320,...list.map(a=>Math.ceil((a.start+a.dur)/15)*15)),NC=(hi-lo)/15;
+  const lanes=[],P=[];
+  act.slice().sort((x,y)=>x.start-y.start).forEach(a=>{let l=lanes.findIndex(e=>e<=a.start);if(l<0){l=lanes.length;lanes.push(0)}lanes[l]=a.start+a.dur;P.push([l,a])});
+  const NL=Math.max(CAP,lanes.length),occ=i=>c[lo+i*15]||0;
+  let h='<div class="lab" style="grid-row:1;grid-column:1/span 2;border:0"></div>';
+  for(let l=0;l<NL;l++)h+=`<div class="lab" style="grid-row:1;grid-column:${l+3}">Lugar ${l+1}</div>`;
+  for(let i=0;i<NC;i++){const m=lo+i*15;
+    h+=`<div class="hh${m%60===0?' hr':''}" style="grid-column:1;grid-row:${i+2}">${hm(m)}</div>`;
+    h+=`<div style="grid-column:2;grid-row:${i+2};background:${tint(occ(i),85)}"></div>`}
+  for(let l=0;l<NL;l++)for(let i=0;i<NC;i++){const m=lo+i*15,ok=m>=780&&m<1320&&occ(i)<CAP;
+    h+=`<div class="cell${m%60===0?' hr':''}" style="grid-column:${l+3};grid-row:${i+2};background:${tint(occ(i),26)}"${ok?` onclick="openAppt(null,'${day}',${m})" title="Agendar a las ${hm(m)}"`:''}></div>`}
+  P.forEach(([l,a])=>{
+    const p=pat(a.pid)||{name:'(eliminado)'},i=Math.floor((a.start-lo)/15),n=Math.max(1,Math.ceil(a.dur/15)),sn=nses(a).replace('Sesión ','').replace(' de ','/');
+    h+=`<div class="blk" style="grid-column:${l+3};grid-row:${i+2}/span ${n}" onclick="openAppt('${a.id}')" title="${esc(p.name)}, ${hm(a.start)} a ${hm(a.start+a.dur)}">
+    ${+a.amount&&!a.paid?'<i class="dd" title="Pendiente de cobro"></i>':''}<b class="pn">${esc(p.name)}</b>
+    <span>${hm(a.start)} a ${hm(a.start+a.dur)}</span><span>${[a.reason,sn].filter(Boolean).map(esc).join(', ')}</span></div>`;
+  });
+  const cn=list.filter(a=>a.st==='canc');
+  return `<div class="bar"><button onclick="shift(-1)" aria-label="Día anterior">‹</button>
+  <input type="date" value="${day}" onchange="if(this.value){day=this.value;render()}" aria-label="Elegir fecha">
+  <button onclick="shift(1)" aria-label="Día siguiente">›</button><button onclick="day=iso(new Date());render()">Hoy</button><button onclick="openRem()">Recordatorios</button></div>
+  <h2>${d.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long'})}</h2>
+  <p class="sub">${act.length} ${act.length===1?'turno':'turnos'}${deb?', '+money(deb)+' por cobrar':''}. Tocá un hueco para agendar o un turno para editarlo.</p>
+  <div class="lg"><span><i style="background:${tone(0)}"></i>Libre</span><span><i style="background:${tone(1)}"></i>Con turnos, todavía hay lugar</span><span><i style="background:${tone(CAP)}"></i>Completo (${CAP} pacientes)</span></div>
+  <div style="overflow-x:auto;border-radius:12px;background:var(--surf)"><div class="gr" style="min-width:${62+NL*130}px;grid-template-columns:52px 10px repeat(${NL},minmax(130px,1fr));grid-template-rows:30px repeat(${NC},24px)">${h}</div></div>
+  ${cn.length?`<p class="sm" style="margin-top:12px">Cancelados: ${cn.map(x=>`<span class="canc" onclick="openAppt('${x.id}')">${hm(x.start)} ${esc((pat(x.pid)||{}).name)}</span>`).join(', ')}</p>`:''}`;
+}
+
+/* ---------- Turno ---------- */
+function openAppt(id,date,start,pid){
+  const a=id?{...S.appts.find(x=>x.id===id)}:{id:'',pid:pid||'',date:date||day,start:start??780,dur:60,reason:'',st:'conf',amount:'',paid:false,notes:''};
+  showAppt(a);
+}
+function showAppt(a){
+  const slots=slotOpts(a.date,a.start,a.id,a.dur);
+  BASE=a.id||'';
+  dlg.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;position:sticky;top:-18px;z-index:2;background:var(--bg);padding:10px 0;margin:-10px 0 6px"><h3 style="margin:0">${a.id?'Editar turno':'Nuevo turno'}</h3>
+  <button class="primary" style="border:1px solid var(--line);border-radius:10px;padding:9px 14px;min-height:42px" onclick="saveAppt('${a.id}')">Guardar turno</button></div>
+  <label><span>Paciente</span><select id="f_pid" onchange="$('#sesinfo').textContent=sesLine(this.value);fichaRef(this.value)"><option value="">Elegir paciente</option>${S.patients.map(p=>`<option value="${p.id}" ${p.id===a.pid?'selected':''}>${esc(p.name)}</option>`).join('')}</select></label>
+  <p class="sm" id="sesinfo" style="margin:0 0 8px">${sesLine(a.pid)}</p>
+  ${a.id?(a.pid?`<button class="link" onclick="err(waGo($('#f_pid').value,$('#f_date').value,+$('#f_start').value))">Recordar por WhatsApp</button>`:''):`<button class="link" onclick="goNewPat()">Crear paciente nuevo</button>`}
+  <div class="g2"><label><span>Fecha <b id="dow" style="font-weight:500;color:var(--ink)">(${dn(a.date)})</b></span><input type="date" id="f_date" value="${a.date}" onchange="refSlots()"></label>
+  <label><span>Hora</span><select id="f_start" data-ex="${a.id}">${slots}</select></label></div>
+  <details class="more"><summary>Especificaciones</summary>
+  <label><span>Duración</span><select id="f_dur" onchange="refSlots()">${[...new Set([30,60,90,a.dur])].sort((x,y)=>x-y).map(n=>`<option value="${n}" ${n===a.dur?'selected':''}>${n} min</option>`).join('')}</select></label>
+  <label><span>Estado</span><select id="f_st">${Object.entries(ST).map(([k,v])=>`<option value="${k}" ${k===a.st?'selected':''}>${v[0]}</option>`).join('')}</select></label>
+  <label><span>Motivo</span><input id="f_reason" list="mot" value="${esc(a.reason)}"></label>
+  <datalist id="mot">${MOTIVOS.map(m=>`<option value="${m}">`).join('')}</datalist>
+  <div class="g2"><label><span>Monto en pesos</span><input type="number" min="0" id="f_amount" value="${esc(a.amount)}"></label>
+  <label><span>Cobro</span><select id="f_paid"><option value="0">Pendiente</option><option value="1" ${a.paid?'selected':''}>Cobrado</option></select></label></div>
+  <label><span>Notas del turno</span><textarea id="f_notes">${esc(a.notes)}</textarea></label>
+  </details>
+  ${a.id?`<details class="more"><summary>Ficha del paciente</summary><div id="ficha">${fichaHTML(a.pid)}</div></details>`:''}
+  ${a.id?'':`<details class="more"><summary>Agendar más días para este paciente</summary>
+  <p class="sm">Tildá los días de la semana y elegí cuántas semanas: la lista se arma sola y se actualiza si tildás o destildás un día. Podés cambiar la hora de cada turno (mismo horario o distinto), destildarlo o sacarlo.</p>
+  <div id="wd" class="wd">${[['Lun',1],['Mar',2],['Mié',3],['Jue',4],['Vie',5],['Sáb',6]].map(([n,v])=>`<label><input type="checkbox" value="${v}" onchange="xgen()">${n}</label>`).join('')}</div>
+  <div class="bar" style="margin:8px 0"><select id="wk" style="width:auto" onchange="xgen()">${[1,2,3,4,6,8,12].map(n=>`<option value="${n}" ${n===4?'selected':''}>${n} ${n===1?'semana':'semanas'}</option>`).join('')}</select>
+  </div>
+  <div class="bar" style="margin:8px 0"><span class="sm">Otra fecha suelta:</span><input type="date" id="xd" style="width:auto"><button class="btn" onclick="xadd()">Agregar</button></div>
+  <div id="extra"></div></details>`}
+  <p class="err" id="err"></p>
+  <div class="acts">${a.id?`<button class="danger" onclick="delAppt('${a.id}',this)">Eliminar</button>`:''}<span></span>
+  <button onclick="dlg.close()">Cancelar</button><button class="primary" onclick="saveAppt('${a.id}')">Guardar turno</button></div>`;
+  if(!dlg.open)dlg.showModal();
+}
+function fichaHTML(pid){const p=pat(pid);return p?histo(pid)+patFields(p):'<p class="sm">Elegí un paciente.</p>'}
+function fichaRef(pid){const f=$('#ficha');if(f)f.innerHTML=fichaHTML(pid)}
+function slotOpts(date,sel,ex,dur){
+  const c=load(date,ex),ms=[],dd=dur||60;for(let m=780;m<1320;m+=15)ms.push(m);
+  if(!ms.includes(sel)){ms.push(sel);ms.sort((x,y)=>x-y)}
+  return ms.map(m=>{let u=0;for(let k=m;k<m+dd;k+=15)u=Math.max(u,c[k]||0);const l=CAP-u,cierre=m+dd>1320;
+    return `<option value="${m}" ${m===sel?'selected':''} ${(l<=0||cierre)&&m!==sel?'disabled':''}>${hm(m)} (${cierre?'pasa las 22:00':l<=0?'completo':l+(l===1?' libre':' libres')})</option>`}).join('');
+}
+function refSlots(){const e=$('#f_start'),d=$('#f_date').value;if(d){e.innerHTML=slotOpts(d,+e.value,e.dataset.ex,+$('#f_dur').value);$('#dow').textContent='('+dn(d)+')';xgen()}}
+let BASE='',pf=false;
+function ses(pid){
+  const p=pat(pid)||{},o=p.ord;if(!o||!(+o.total>0))return null;
+  const hoy=iso(new Date()),d=o.desde||'0000-00-00',A=S.appts.filter(a=>a.pid===pid&&a.date>=d&&a.st!=='canc');
+  const hechas=A.filter(a=>a.date<hoy).length;
+  return{total:+o.total,hechas,agend:A.length-hechas,sinmarcar:0,quedan:+o.total-A.length};
+}
+function nses(a){
+  const o=(pat(a.pid)||{}).ord;if(!o||!(+o.total>0)||a.st==='canc'||a.st==='aus')return '';
+  const d=o.desde||'0000-00-00';if(a.date<d)return '';
+  const key=x=>x.date+String(x.start).padStart(4,'0');
+  const n=S.appts.filter(x=>x.pid===a.pid&&x.date>=d&&x.st!=='canc'&&x.st!=='aus'&&key(x)<=key(a)).length;
+  return `Sesión ${n} de ${+o.total}`;
+}
+function sesLine(pid){
+  const x=ses(pid);if(!x)return '';
+  return `Sesiones: ${x.hechas} de ${x.total} realizadas, ${x.agend} agendadas, ${x.quedan>=0?x.quedan+' sin agendar':'se pasó por '+(-x.quedan)}.`;
+}
+function sesBlock(pid){
+  const x=ses(pid);if(!x)return '';
+  const pct=Math.min(100,Math.round((x.hechas+x.agend)/x.total*100));
+  const warn=x.quedan<0?'Se pasó de las sesiones autorizadas.':x.quedan<=2?'Quedan pocas sesiones: conviene pedir una orden nueva.':'';
+  return `<div class="ses"><b>Sesiones: ${x.hechas} de ${x.total} realizadas</b>
+  <div class="sm">${x.agend} agendadas, ${Math.max(x.quedan,0)} sin agendar</div><div class="pbar"><i style="width:${pct}%"></i></div>
+  ${warn?`<div class="sm" style="color:var(--bad);font-weight:700">${warn}</div>`:''}${x.sinmarcar?`<div class="sm">${x.sinmarcar} ${x.sinmarcar===1?'turno pasado sin marcar':'turnos pasados sin marcar'} como atendido. Marcalos para que el conteo sea exacto.</div>`:''}</div>`;
+}
+function verPac(pid,apptId){if(!pat(pid))return;BASE=apptId||'';openPat(pid)}
+function proximo(pid){
+  const mine=S.appts.filter(x=>x.pid===pid&&x.st!=='canc').sort((x,y)=>(x.date+String(x.start).padStart(4,'0')).localeCompare(y.date+String(y.start).padStart(4,'0')));
+  const b=BASE?S.appts.find(x=>x.id===BASE):mine[mine.length-1];
+  let date=day,start=780,dur=60,reason='',amount='';
+  if(b){const d=new Date(b.date+'T12:00');d.setDate(d.getDate()+7);date=iso(d);start=b.start;dur=b.dur;reason=b.reason;amount=b.amount}
+  dlg.close();showAppt({id:'',pid,date,start,dur,reason,st:'conf',amount,paid:false,notes:''});
+}
+function readAppt(){
+  const v=i=>document.getElementById('f_'+i).value;
+  return{pid:v('pid'),date:v('date'),start:+v('start'),dur:+v('dur'),st:v('st'),reason:v('reason').trim(),amount:v('amount'),paid:v('paid')==='1',notes:v('notes')};
+}
+const err=m=>{const e=$('#err');e.textContent=m;if(m)e.scrollIntoView({block:'nearest'})};
+const fd=d=>d.split('-').reverse().join('/');
+function chk(list){
+  const extra={};
+  for(const a of list){
+    if(a.st==='canc')continue;
+    if(a.start+a.dur>1320)return `El turno del ${fd(a.date)} termina después del cierre (22:00).`;
+    const o=load(a.date,a.id),e=extra[a.date]||(extra[a.date]={});
+    for(let m=a.start;m<a.start+a.dur;m+=15)if((o[m]||0)+(e[m]||0)>=CAP)return `El ${fd(a.date)} a las ${hm(m)} ya hay ${CAP} pacientes. Cambiá ese horario o la duración.`;
+    const sol=x=>x.id!==a.id&&x.st!=='canc'&&x.pid===a.pid&&x.date===a.date&&x.start<a.start+a.dur&&a.start<x.start+x.dur;
+    if(S.appts.some(sol)||list.some(sol))return `El paciente ya tiene otro turno que se superpone el ${fd(a.date)}.`;
+    for(let m=a.start;m<a.start+a.dur;m+=15)e[m]=(e[m]||0)+1;
+  }
+  return '';
+}
+const dn=d=>new Date(d+'T12:00').toLocaleDateString('es-AR',{weekday:'long'});
+function xrow(date,start,g){
+  const t=new Date(date+'T12:00').toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'numeric'});
+  return `<div class="xr"${g?' data-g="1"':''} data-date="${date}"><input type="checkbox" checked aria-label="Incluir este turno"><span class="xd">${t}</span><select>${slotOpts(date,start,'',+($('#f_dur')||{}).value||60)}</select><button class="btn" onclick="this.parentNode.remove()" aria-label="Quitar">×</button></div>`;
+}
+function xsort(){const b=$('#extra');[...b.children].sort((x,y)=>x.dataset.date.localeCompare(y.dataset.date)).forEach(r=>b.appendChild(r))}
+function xgen(){
+  if(!$('#wd'))return;
+  const dias=[...document.querySelectorAll('#wd input:checked')].map(i=>+i.value),n=+$('#wk').value,base=$('#f_date').value,st=+$('#f_start').value,box=$('#extra');
+  if(!base)return;
+  const want=new Set(),d0=new Date(base+'T12:00');
+  for(let i=1;i<n*7;i++){const d=new Date(d0);d.setDate(d.getDate()+i);if(dias.includes(d.getDay()))want.add(iso(d))}
+  const have=new Set(),val=r=>r.dataset.date;
+  [...box.children].forEach(r=>{if(r.dataset.g&&!want.has(val(r)))r.remove();else have.add(val(r))});
+  want.forEach(d=>{if(!have.has(d))box.insertAdjacentHTML('beforeend',xrow(d,st,1))});
+  xsort();err('');
+}
+function xadd(){
+  const d=$('#xd').value,box=$('#extra');
+  if(!d)return err('Elegí la fecha que querés agregar.');
+  if([...box.children].some(r=>r.dataset.date===d))return err('Esa fecha ya está en la lista.');
+  box.insertAdjacentHTML('beforeend',xrow(d,+$('#f_start').value));xsort();err('');
+}
+function saveAppt(id){
+  const a=readAppt();a.id=id||uid();
+  if(id){const o=S.appts.find(y=>y.id===id);if(o&&o.rem&&o.date===a.date&&o.start===a.start)a.rem=true}
+  if(!a.pid)return err('Elegí un paciente o creá uno nuevo.');
+  if(!a.date)return err('Elegí una fecha.');
+  let P=null;
+  if(id&&$('#p_name')){P=readPat(a.pid);if(P.e){$('#ficha').parentNode.open=true;return err(P.e)}}
+  const L=[a];
+  if(!id)document.querySelectorAll('#extra .xr').forEach(r=>{
+    if(!r.querySelector('input[type=checkbox]').checked)return;
+    const d=r.dataset.date;
+    if(d)L.push({...a,id:uid(),date:d,start:+r.querySelector('select').value,st:'conf',paid:false});
+  });
+  const e=chk(L);if(e)return err(e);
+  if(!id){const x=ses(a.pid);if(x&&L.length>Math.max(x.quedan,0)&&!confirm('El paciente tiene '+Math.max(x.quedan,0)+' sesiones sin agendar y estás agendando '+L.length+'. ¿Agendar igual?'))return}
+  if(P)putPat(P.p);
+  L.forEach(x=>{const i=S.appts.findIndex(y=>y.id===x.id);i>=0?S.appts[i]=x:S.appts.push(x);DB.set('appts',x)});
+  day=a.date;dlg.close();render();
+}
+function delAppt(id,b){
+  if(!b.dataset.s){b.dataset.s=1;b.textContent='Confirmar eliminación';return}
+  S.appts=S.appts.filter(x=>x.id!==id);DB.del('appts',id);dlg.close();render();
+}
+function goNewPat(){
+  D=readAppt();D.id=D.id||'';
+  const cur=[...document.querySelectorAll('#dlg h3')][0].textContent.startsWith('Editar')?D.id:'';
+  openPat(null,pid=>{D.pid=pid;showAppt(D)},cur);
+}
+
+/* ---------- Pacientes ---------- */
+function plist(){
+  const t=q.toLowerCase(),L=S.patients.filter(p=>[p.name,p.dni,p.tel].join(' ').toLowerCase().includes(t)&&(!pf||(ses(p.id)||{quedan:99}).quedan<=2)).sort((a,b)=>a.name.localeCompare(b.name));
+  if(!L.length)return `<p class="empty">${pf?'Ningún paciente necesita renovar la orden.':S.patients.length?'Ningún paciente coincide con la búsqueda.':'Todavía no hay pacientes. Creá el primero con “Nuevo paciente”.'}</p>`;
+  return L.map(p=>{
+    const A=S.appts.filter(a=>a.pid===p.id&&a.st!=='canc'),deb=A.reduce((s,a)=>s+(a.paid?0:+a.amount||0),0),sx=ses(p.id);
+    return `<div class="card" tabindex="0" onclick="verPac('${p.id}')" onkeydown="if(event.key==='Enter')verPac('${p.id}')"><b>${esc(p.name)}</b>
+    ${deb?`<span class="tag" style="--c:var(--bad)">Debe ${money(deb)}</span>`:''}${sx&&sx.quedan<=2?`<span class="tag" style="--c:var(--bad);margin-right:8px">Renovar orden</span>`:''}
+    <div class="sm">${[p.tel,p.os||'Particular',A.length+(A.length===1?' turno':' turnos'),sx?`Sesiones ${sx.hechas} de ${sx.total}`:''].filter(Boolean).map(esc).join(', ')}</div></div>`}).join('');
+}
+function vPac(){
+  return `<div class="bar" style="margin-bottom:12px"><input style="flex:1" type="search" placeholder="Buscar por nombre, DNI o teléfono" value="${esc(q)}" oninput="q=this.value;$('#plist').innerHTML=plist()">
+  <button class="${pf?'primary':''}" onclick="pf=!pf;render()">Por renovar orden</button><button class="primary" onclick="openPat(null)">Nuevo paciente</button></div><div id="plist">${plist()}</div>`;
+}
+function patFields(p){
+  const o=p.ord||{};
+  return `  <label><span>Nombre y apellido</span><input id="p_name" value="${esc(p.name)}"></label>
+  <div class="g2"><label><span>DNI</span><input id="p_dni" inputmode="numeric" value="${esc(p.dni)}"></label>
+  <label><span>Teléfono</span><input id="p_tel" type="tel" value="${esc(p.tel)}"></label></div>
+  <div class="g2"><label><span>Obra social</span><input id="p_os" list="oslist" placeholder="Particular" value="${esc(p.os)}"></label>
+  <label><span>Número de afiliado</span><input id="p_afil" value="${esc(p.afil)}"></label></div>
+  <datalist id="oslist">${OS.map(o=>`<option value="${o}">`).join('')}</datalist>
+  <label><span>Fecha de nacimiento</span><input id="p_nac" type="date" value="${esc(p.nac)}"></label>
+  <b>Orden médica y sesiones</b>
+  <div class="g2" style="margin-top:6px"><label><span>Médico que deriva</span><input id="p_o_medico" value="${esc(o.medico)}"></label>
+  <label><span>Nº de orden o autorización</span><input id="p_o_nro" value="${esc(o.nro)}"></label></div>
+  <div class="g2"><label><span>Sesiones autorizadas</span><input id="p_o_total" type="number" min="0" value="${esc(o.total)}"></label>
+  <label><span>Contar desde</span><input id="p_o_desde" type="date" value="${esc(o.desde)}"></label></div>
+  <p class="sm" style="margin:-4px 0 12px">Al renovar la orden, cambiá la cantidad y la fecha: el conteo vuelve a empezar.</p>
+  <label><span>Diagnóstico, antecedentes y notas clínicas</span><textarea id="p_notes">${esc(p.notes)}</textarea></label>`;
+}
+function openPat(id,cb,fromAppt){
+  PCB=cb||null;
+  const p=id?pat(id):{id:'',name:'',dni:'',tel:'',nac:'',os:'',afil:'',notes:''},o=p.ord||{};
+  dlg.innerHTML=`<h3>${id?'Ficha del paciente':'Nuevo paciente'}</h3>
+  ${id?histo(id):''}
+  ${patFields(p)}
+  <p class="err" id="err"></p>
+  <div class="acts">${id?`<button class="danger" onclick="delPat('${id}',this)">Eliminar</button>`:''}<span></span>
+  <button onclick="${cb?`showAppt(D)`:'dlg.close()'}">Cancelar</button>
+  <button class="primary" onclick="savePat('${id||''}')">Guardar</button></div>`;
+  if(!dlg.open)dlg.showModal();
+}
+function histo(id){
+  const t=new Date(),a=new Date(t),b=new Date(t);
+  a.setMonth(a.getMonth()-3);b.setMonth(b.getMonth()+3);
+  const lo=iso(a),hi=iso(b),hoy=iso(t),k=x=>x.date+String(x.start).padStart(4,'0');
+  const L=S.appts.filter(x=>x.pid===id&&x.date>=lo&&x.date<=hi);
+  const row=x=>{const [l,c]=ST[x.st];return `<div class="hit" style="--c:${c}" onclick="dlg.close();openAppt('${x.id}')">
+    <span>${new Date(x.date+'T12:00').toLocaleDateString('es-AR',{weekday:'short',day:'numeric',month:'short'})}, ${hm(x.start)}${x.reason?', '+esc(x.reason):''}</span>
+    <span style="color:${c};font-weight:700;white-space:nowrap">${l}${+x.amount?(x.paid?', cobrado':', a cobrar'):''}</span></div>`};
+  const blk=(t,A,vacio)=>`<b>${t}</b>${A.length?A.map(row).join(''):`<p class="sm" style="margin:4px 0 0">${vacio}</p>`}`;
+  return `<div style="margin-bottom:16px">${sesBlock(id)}<button class="btn primary" style="width:100%;margin-bottom:12px" onclick="proximo('${id}')">Agendar próximo turno</button>`+
+    blk('Próximos turnos (hasta 3 meses)',L.filter(x=>x.date>=hoy).sort((x,y)=>k(x).localeCompare(k(y))),'No tiene turnos próximos.')+
+    `<div style="height:12px"></div>`+
+    blk('Turnos anteriores (últimos 3 meses)',L.filter(x=>x.date<hoy).sort((x,y)=>k(y).localeCompare(k(x))),'No tuvo turnos en los últimos 3 meses.')+`</div>`;
+}
+function readPat(id){
+  const v=i=>document.getElementById('p_'+i).value.trim();
+  if(!v('name'))return{e:'Escribí el nombre del paciente.'};
+  return{p:{id:id||uid(),name:v('name'),dni:v('dni'),tel:v('tel'),os:v('os'),afil:v('afil'),nac:v('nac'),notes:v('notes'),ord:{medico:v('o_medico'),nro:v('o_nro'),total:v('o_total'),desde:v('o_desde')}}};
+}
+function putPat(p){
+  const i=S.patients.findIndex(x=>x.id===p.id);
+  i>=0?S.patients[i]=p:S.patients.push(p);
+  DB.set('patients',p);
+}
+function savePat(id){
+  const r=readPat(id);if(r.e)return err(r.e);
+  putPat(r.p);
+  if(PCB){const f=PCB;PCB=null;f(r.p.id)}else{dlg.close();render()}
+}
+function delPat(id,b){
+  if(!b.dataset.s){b.dataset.s=1;b.textContent='Confirmar: se borran también sus turnos';return}
+  const ids=S.appts.filter(a=>a.pid===id).map(a=>a.id);DB.delPat(id,ids);S.patients=S.patients.filter(p=>p.id!==id);S.appts=S.appts.filter(a=>a.pid!==id);dlg.close();render();
+}
+
+/* ---------- Cobros ---------- */
+/* ---------- Recordatorios por WhatsApp ---------- */
+function waPhone(t){let d=String(t||'').replace(/\D/g,'').replace(/^00/,'');if(!d)return '';
+  if(d.startsWith('54')){d=d.slice(2);if(d.startsWith('9'))d=d.slice(1)}
+  d=d.replace(/^0/,'');
+  if(d.length===12){for(const i of [2,3,4])if(d.substr(i,2)==='15'){d=d.slice(0,i)+d.slice(i+2);break}}
+  return d.length===10?'549'+d:''}
+function waMsg(p,date,start){return `Hola ${p.name}, te recuerdo tu turno de kinesiología el ${dn(date)} ${fd(date).slice(0,5)} a las ${hm(start)} hs. ¿Me confirmás que venís? ¡Gracias!`}
+function waGo(pid,date,start){
+  const p=pat(pid);if(!p)return 'Elegí un paciente.';
+  if(!String(p.tel||'').trim())return 'Este paciente no tiene teléfono cargado.';
+  const n=waPhone(p.tel);if(!n)return 'El teléfono de este paciente no parece válido. Cargalo con código de área, por ejemplo 2262 123456.';
+  if(!date||!(start>=0))return 'Elegí fecha y hora.';
+  window.open('https://wa.me/'+n+'?text='+encodeURIComponent(waMsg(p,date,start)),'_blank','noopener');return '';
+}
+let RD='';
+function openRem(){const t=new Date();t.setDate(t.getDate()+1);RD=iso(t);showRem()}
+function showRem(){
+  const L=S.appts.filter(a=>a.date===RD&&a.st!=='canc').sort((x,y)=>x.start-y.start);
+  dlg.innerHTML=`<h3>Recordatorios por WhatsApp</h3>
+  <div class="bar" style="margin-bottom:8px"><input type="date" value="${RD}" onchange="if(this.value){RD=this.value;showRem()}" aria-label="Fecha de los turnos"></div>
+  <p class="sm">Se abre WhatsApp con el mensaje armado y vos tocás enviar.</p>
+  ${L.length?L.map(a=>{const p=pat(a.pid)||{name:'(paciente eliminado)'};return `<div class="os"><div><b>${esc(p.name)}</b><div class="sm">${hm(a.start)}${String(p.tel||'').trim()?'':', sin teléfono'}${a.rem?', recordatorio enviado':''}</div></div>
+  <button ${a.rem?'':'class="primary"'} onclick="remSend('${a.id}')" ${String(p.tel||'').trim()?'':'disabled'}>${a.rem?'Enviar de nuevo':'Enviar'}</button></div>`}).join(''):'<p class="empty">No hay turnos para ese día.</p>'}
+  <p class="err" id="err"></p>
+  <div class="acts"><span></span><button onclick="dlg.close()">Cerrar</button></div>`;
+  if(!dlg.open)dlg.showModal();
+}
+function remSend(id){const a=S.appts.find(x=>x.id===id);if(!a)return;const e=waGo(a.pid,a.date,a.start);if(e){err(e);return}a.rem=true;DB.set('appts',a);showRem()}
+
+function togglePaid(id){const a=S.appts.find(x=>x.id===id);a.paid=!a.paid;DB.set('appts',a);render()}
+function vCob(){
+  const L=S.appts.filter(a=>a.date.startsWith(mon)&&a.st!=='canc'&&+a.amount>0).sort((a,b)=>(a.date+a.start).localeCompare(b.date+b.start));
+  const cob=L.filter(a=>a.paid).reduce((s,a)=>s+ +a.amount,0),pen=L.filter(a=>!a.paid).reduce((s,a)=>s+ +a.amount,0);
+  const by={};L.forEach(a=>{const o=(pat(a.pid)||{}).os||'Particular';by[o]=(by[o]||0)+ +a.amount});
+  const V=cf==='pend'?L.filter(a=>!a.paid):L;
+  return `<div class="bar"><input type="month" value="${mon}" onchange="if(this.value){mon=this.value;render()}" aria-label="Mes">
+  <select style="width:auto" onchange="cf=this.value;render()" aria-label="Filtro"><option value="all">Todos los turnos</option><option value="pend" ${cf==='pend'?'selected':''}>Solo pendientes</option></select></div>
+  <div class="stats"><div class="stat"><span class="sm">Cobrado</span><b>${money(cob)}</b></div><div class="stat"><span class="sm">Pendiente</span><b>${money(pen)}</b></div></div>
+  ${Object.keys(by).length?`<b>Facturado por obra social</b>${Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([o,n])=>`<div class="os"><span>${esc(o)}</span><span>${money(n)}</span></div>`).join('')}`:''}
+  <h3 style="margin-top:18px">Detalle</h3>
+  ${V.length?V.map(a=>`<div class="card" style="--c:${a.paid?'#2f7d32':'#b7791f'};cursor:default"><button class="pay ${a.paid?'on':''}" onclick="togglePaid('${a.id}')">${a.paid?'Cobrado, deshacer':'Marcar cobrado'}</button>
+  <b>${esc((pat(a.pid)||{name:'(eliminado)'}).name)}</b><div class="sm">${a.date.split('-').reverse().join('/')}, ${esc(a.reason||'Sin motivo')}, ${money(a.amount)}</div></div>`).join(''):'<p class="empty">No hay cobros para mostrar en este mes. Cargá un monto al guardar un turno.</p>'}`;
+}
+function backup(){
+  const blob=new Blob([JSON.stringify({version:1,fecha:new Date().toISOString(),patients:S.patients,appts:S.appts},null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='copia-turnos-'+iso(new Date())+'.json';
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function restore(inp){
+  const f=inp.files[0];inp.value='';if(!f)return;
+  f.text().then(t=>{
+    const d=JSON.parse(t);
+    if(!Array.isArray(d.patients)||!Array.isArray(d.appts))throw 0;
+    if(!confirm('Se van a cargar '+d.patients.length+' pacientes y '+d.appts.length+' turnos de la copia. No se borra nada de lo actual; si hay datos con el mismo identificador, se reemplazan. ¿Continuar?'))return;
+    return DB.restore(d.patients,d.appts).then(()=>alert('Copia restaurada.'));
+  }).catch(()=>alert('El archivo no es una copia válida.'));
+}
+let phase='load',msg='',lemail='';
+const gate=p=>{phase=p;render()};
+function vGate(){
+  if(phase==='config')return `<h2>Falta la configuración</h2><p class="sub">Abrí este archivo con el Bloc de notas y pegá los datos de tu proyecto de Firebase donde dice PEGAR_AQUI.</p>`;
+  if(phase==='login')return `<h2>Ingresar</h2><p class="sub">Usuario y contraseña del consultorio.</p>
+  <label><span>Correo electrónico</span><input id="le" type="email" autocomplete="username" value="${esc(lemail)}"></label>
+  <label><span>Contraseña</span><input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></label>
+  <p class="err">${esc(msg)}</p><button class="btn primary" onclick="doLogin()">Ingresar</button>`;
+  return '<p class="empty">Cargando…</p>';
+}
+async function doLogin(){
+  lemail=$('#le').value.trim();msg='';
+  try{await DB.login(lemail,$('#lp').value)}catch(e){msg='Correo o contraseña incorrectos.';render()}
+}
+function render(){$('nav').hidden=$('#foot').hidden=phase!=='app';if(phase!=='app'){$('#main').innerHTML=vGate();return}renderApp()}
+render();
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,doc,setDoc,deleteDoc,onSnapshot,writeBatch} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+/* PEGAR_AQUI: reemplazá estos cuatro valores por los de tu proyecto de Firebase */
+const firebaseConfig={apiKey:"AIzaSyDWzZRox18EQz5ci-huC8hk3QH3sjEhODU",authDomain:"turnos-kinesiologia-70eb9.firebaseapp.com",projectId:"turnos-kinesiologia-70eb9",appId:"1:83509359329:web:f8d24f02d9a71f436bfda0"};
+
+if(firebaseConfig.apiKey.startsWith('PEGAR')){gate('config')}
+else{
+  const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+  const fail=e=>alert('No se pudo guardar o leer los datos. Revisá la conexión y volvé a intentar.'+(e&&e.code?' Código: '+e.code:''));
+  window.DB={
+    login:(e,p)=>signInWithEmailAndPassword(auth,e,p),
+    logout:()=>signOut(auth),
+    set:(c,o)=>setDoc(doc(db,c,o.id),o).catch(fail),
+    del:(c,id)=>deleteDoc(doc(db,c,id)).catch(fail),
+    restore:async(P,A)=>{
+      const all=[...P.map(o=>['patients',o]),...A.map(o=>['appts',o])].filter(([c,o])=>o&&typeof o.id==='string');
+      try{for(let i=0;i<all.length;i+=400){const b=writeBatch(db);all.slice(i,i+400).forEach(([c,o])=>b.set(doc(db,c,o.id),o));await b.commit()}}catch(e){fail(e)}
+    },
+    delPat:(id,ids)=>{const b=writeBatch(db);b.delete(doc(db,'patients',id));ids.forEach(i=>b.delete(doc(db,'appts',i)));return b.commit().catch(fail)}
+  };
+  let off=[];
+  onAuthStateChanged(auth,u=>{
+    off.forEach(f=>f());off=[];
+    if(!u){S={patients:[],appts:[]};gate('login');return}
+    gate('app');
+    off.push(onSnapshot(collection(db,'patients'),s=>{S.patients=s.docs.map(d=>d.data());render()},fail));
+    off.push(onSnapshot(collection(db,'appts'),s=>{S.appts=s.docs.map(d=>{const o=d.data();o.st=(o.st==='canc'||o.st==='aus')?'canc':'conf';return o});render()},fail));
+  });
+}
+</script>
+</body>
+</html>
